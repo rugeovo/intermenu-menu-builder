@@ -1,0 +1,4 @@
+interface:
+  display_name: "InterMenu Builder"
+  short_description: "Analyze, design, implement, test, and review complete InterMenu menu bundles."
+  default_prompt: "Use $intermenu-menu-builder to analyze this feature request, design the menu system, implement the bundle, test it, and review it before delivery."

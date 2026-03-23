@@ -1,0 +1,41 @@
+# Starter template for a one-screen menu.
+# Replace placeholders and delete comments after use.
+
+title: "&f<menu title>"
+layout:
+  - "#########"
+  - "# A B C #"
+  - "#       #"
+  - "#   X   #"
+  - "#########"
+
+bindings:
+  commands:
+    - "<command>"
+
+events:
+  click: |-
+    menu-js """
+      clickEvent.setCancelled(true)
+    """
+
+icons:
+  "#":
+    display:
+      name: " "
+      material: "black_stained_glass_pane"
+      hideTooltip: true
+  "A":
+    display:
+      material: "STONE"
+      name: "&fAction A"
+    actions:
+      left: |-
+        tell "Clicked A"
+  "X":
+    display:
+      material: "BARRIER"
+      name: "&cClose"
+    actions:
+      all: |-
+        menu close

@@ -1,0 +1,23 @@
+functions: |-
+  function addToVariable(variableName, delta, minValue, maxValue) {
+      var value = parseInt(menu.getVar(variableName)) || 0;
+      var result = value + delta;
+      if (minValue !== null && result < minValue) result = minValue;
+      if (maxValue !== null && result > maxValue) result = maxValue;
+      menu.setVar(variableName, result);
+  }
+
+  function ensurePage(slotChar, itemsKey) {
+      var page = parseInt(menu.getVar("page")) || 1;
+      menu.setVar("page", page);
+      var items = menu.getVar("items");
+      if (items == null) {
+          items = Java.from(config.getMapList(itemsKey));
+          menu.setVar("items", items);
+      }
+      return {
+          page: page,
+          items: items,
+          slots: menu.getSlots(slotChar)
+      };
+  }

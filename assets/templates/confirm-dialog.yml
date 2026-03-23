@@ -1,0 +1,48 @@
+title: "&fConfirm"
+layout:
+  - "#########"
+  - "#   I   #"
+  - "#  Y N  #"
+  - "#   B   #"
+  - "#########"
+
+events:
+  click: |-
+    menu-js """
+      clickEvent.setCancelled(true)
+    """
+
+icons:
+  "#":
+    display:
+      name: " "
+      material: "black_stained_glass_pane"
+      hideTooltip: true
+  "I":
+    display:
+      material: "PAPER"
+      name: "&fTarget: {kether:menu-get target}"
+      lore:
+        - "&7Are you sure you want to continue?"
+  "Y":
+    display:
+      material: "LIME_WOOL"
+      name: "&aConfirm"
+    actions:
+      all: |-
+        tell inline "Confirmed {kether:menu-get target}"
+        menu close
+  "N":
+    display:
+      material: "RED_WOOL"
+      name: "&cCancel"
+    actions:
+      all: |-
+        menu close
+  "B":
+    display:
+      material: "ARROW"
+      name: "&fBack"
+    actions:
+      all: |-
+        menu open <previous_menu_id>

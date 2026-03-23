@@ -1,0 +1,111 @@
+# Starter pattern for linked list/detail menus.
+# Split the two YAML documents below into separate files such as
+# menus/main.yml and menus/detail.yml before use.
+# The list menu assumes pagination helpers compatible with functions/example.yml.
+
+# main.yml
+title: "&f<catalog>"
+listChar: "@"
+entries:
+  - "example"
+  - "another"
+layout:
+  - "#########"
+  - "#@@@@@@@#"
+  - "#@@@@@@@#"
+  - "#<#####>#"
+  - "#########"
+
+events:
+  post_open: |-
+    menu-js """
+      var listChar = config.getString("listChar")
+      var currentPage = menu.getVar("pagination_currentPage") || 1
+      utils.initPagination(Java.from(config.getStringList("entries")), menu.getSlots(listChar).length, currentPage)
+      utils.renderPageTo(listChar, "itemId")
+    """
+  click: |-
+    menu-js """
+      clickEvent.setCancelled(true)
+    """
+
+icons:
+  "#":
+    display:
+      name: " "
+      material: "black_stained_glass_pane"
+      hideTooltip: true
+  "@":
+    display:
+      material: "PAPER"
+      name: "&fSelected: {kether:menu-get itemId}"
+    actions:
+      left: |-
+        set itemId to menu-js "utils.getClickedPageItem(config.getString('listChar'))"
+        menu open detail with itemId &itemId
+    icons:
+      0:
+        condition: "check menu-get itemId == null"
+        display:
+          material: "white_stained_glass_pane"
+          hideTooltip: true
+  "<":
+    display:
+      material: "ARROW"
+      name: "&fPrevious Page"
+    actions:
+      left: |-
+        menu-js """
+          utils.turnPage("prev")
+          utils.renderPageTo(config.getString("listChar"), "itemId")
+        """
+  ">":
+    display:
+      material: "ARROW"
+      name: "&fNext Page"
+    actions:
+      left: |-
+        menu-js """
+          utils.turnPage("next")
+          utils.renderPageTo(config.getString("listChar"), "itemId")
+        """
+---
+# detail.yml
+title: "&f<detail>"
+layout:
+  - "#########"
+  - "#   I   #"
+  - "#   C   #"
+  - "#   B   #"
+  - "#########"
+
+events:
+  click: |-
+    menu-js """
+      clickEvent.setCancelled(true)
+    """
+
+icons:
+  "#":
+    display:
+      name: " "
+      material: "black_stained_glass_pane"
+      hideTooltip: true
+  "I":
+    display:
+      material: "PAPER"
+      name: "&fSelected: {kether:menu-get itemId}"
+  "C":
+    display:
+      material: "EMERALD"
+      name: "&aConfirm"
+    actions:
+      left: |-
+        tell inline "Confirmed {kether:menu-get itemId}"
+  "B":
+    display:
+      material: "ARROW"
+      name: "&fBack"
+    actions:
+      all: |-
+        menu open main
